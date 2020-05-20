@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, ListRenderItem} from 'react-native';
+import {FlatList, ListRenderItem, TouchableWithoutFeedback, View} from 'react-native';
 import moment from 'moment';
 
 import Event from '../../services/events/Event';
@@ -8,6 +8,7 @@ import Separator from '../../components/Separator';
 
 interface ScreenProps {
   events: Event[];
+  onSelect: (event: Event) => void;
 }
 
 const Screen: React.FC<ScreenProps> = (props: ScreenProps) => {
@@ -15,7 +16,17 @@ const Screen: React.FC<ScreenProps> = (props: ScreenProps) => {
     const date = moment(item.starts_at).format('MMM DD');
     const attendees = `${item.attendees_count} attendees`;
 
-    return <EventComponent name={item.name} date={date} attendees={attendees} />;
+    const onSelect = () => {
+      props.onSelect(item);
+    };
+
+    return (
+      <TouchableWithoutFeedback onPress={onSelect}>
+        <View>
+          <EventComponent name={item.name} date={date} attendees={attendees} />
+        </View>
+      </TouchableWithoutFeedback>
+    );
   };
 
   return (
