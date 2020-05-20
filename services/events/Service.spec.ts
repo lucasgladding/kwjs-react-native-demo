@@ -1,15 +1,17 @@
 import Service from './Service';
 
-const fixture = require('../../fixtures/events.json');
+const fixtures = {
+  events: require('../../fixtures/events.json'),
+};
 
 describe('events/Service', () => {
   it('lists the events', async () => {
-    mockFetch(fixture);
+    mockFetch(fixtures.events);
 
     const service = new Service();
     const response = await service.list();
-    expect(response).toHaveLength(fixture.length);
-  })
+    expect(response).toHaveLength(fixtures.events.length);
+  });
 });
 
 const mockFetch = (data: any) => {
