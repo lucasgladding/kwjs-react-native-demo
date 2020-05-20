@@ -1,30 +1,25 @@
 import React from 'react';
-import {FlatList, ListRenderItem, StyleSheet, Text, View} from 'react-native';
+import {FlatList, ListRenderItem} from 'react-native';
+import moment from 'moment';
 
-import Event from '../../components/Event';
+import Event from '../../services/events/Event';
+import EventComponent from '../../components/Event';
 import Separator from '../../components/Separator';
 
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 40,
-    padding: 20,
-  },
-});
-
 interface ScreenProps {
-  data: any[];
+  events: Event[];
 }
 
 const Screen: React.FC<ScreenProps> = (props: ScreenProps) => {
-  const renderEvent: ListRenderItem<any> = ({item}) => {
-    return <Event name={item.name} date={item.date} attendees={item.attendees} />
+  const renderEvent: ListRenderItem<Event> = ({item}) => {
+    const date = moment(item.starts_at).format('MMM DD');
+    const attendees = `${item.attendees_count} attendees`;
+
+    return <EventComponent name={item.name} date={date} attendees={attendees} />;
   };
 
   return (
-    <View>
-      <Text style={styles.title}>Events</Text>
-      <FlatList data={props.data} ItemSeparatorComponent={Separator} renderItem={renderEvent} />
-    </View>
+    <FlatList data={props.events} ItemSeparatorComponent={Separator} renderItem={renderEvent} />
   );
 };
 
