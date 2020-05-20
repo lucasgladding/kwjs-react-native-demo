@@ -4,7 +4,7 @@ import Event from '../../services/events/Event';
 import Screen from './Screen';
 import Service from '../../services/events/Service';
 
-const Container: React.FC = () => {
+const Container: React.FC = (props: any) => {
   const [events, setEvents] = useState<Event[]>([]);
 
   useEffect(() => {
@@ -16,7 +16,13 @@ const Container: React.FC = () => {
     load();
   }, []);
 
-  return <Screen events={events} />;
+  const onSelect = (event: Event) => {
+    props.navigation.navigate('Event', {
+      id: event.id,
+    });
+  }
+
+  return <Screen events={events} onSelect={onSelect} />;
 };
 
 export default Container;

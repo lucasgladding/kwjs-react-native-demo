@@ -17,7 +17,7 @@ describe('Screen', () => {
   const onSelect = jest.fn();
 
   it('renders an event', () => {
-    const {getByText} = render(<Screen events={events} />);
+    const {getByText} = render(<Screen events={events} onSelect={onSelect} />);
     expect(getByText(events[0].name)).toBeDefined();
   });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import moment from 'moment';
 
 import Event from '../../services/events/Event';
@@ -18,18 +18,31 @@ const styles = StyleSheet.create({
 
 interface ScreenProps {
   events: Event[];
+  onSelect: (event: Event) => void;
 }
 
 const Screen: React.FC<ScreenProps> = (props: ScreenProps) => {
   const renderEvent: ListRenderItem<Event> = ({item}) => {
+    const onSelect = () => {
+      props.onSelect(item);
+    };
+
     const date = moment(item.starts_at).format('MMM DD');
     const attendees = `${item.attendees_count} attendees`;
 
-    return <EventComponent name={item.name} date={date} attendees={attendees} />;
+    return (
+      <TouchableWithoutFeedback onPress={onSelect}>
+        <View>
+          <EventComponent name={item.name} date={date} attendees={attendees} />
+        </View>
+      </TouchableWithoutFeedback>
+    );
   };
 
   return (
-    <FlatList data={props.events} ItemSeparatorComponent={Separator} renderItem={renderEvent} style={styles.list} />
+    <View style={styles.container}>
+      <FlatList data={props.events} ItemSeparatorComponent={Separator} renderItem={renderEvent} style={styles.list} />
+    </View>
   );
 };
 
