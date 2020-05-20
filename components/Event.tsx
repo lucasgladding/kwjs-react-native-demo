@@ -11,18 +11,24 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-start',
     flexDirection: 'row',
-    paddingVertical: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   date: {
-    fontSize: 20,
-    paddingHorizontal: 20,
+    width: '30%',
   },
-  details: {
-    borderLeftColor: '#888',
-    borderLeftWidth: 0.5,
-    paddingHorizontal: 20,
+  dateText: {
+    fontSize: 24,
+    textTransform: 'uppercase',
   },
-  attendees: {
+  info: {
+    width: '70%',
+  },
+  nameText: {
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  attendeesText: {
     color: '#888',
   },
 });
@@ -30,12 +36,12 @@ const styles = StyleSheet.create({
 const Event: React.FC<EventProps> = (props: EventProps) => {
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.date}>{props.date}</Text>
+      <View style={styles.date}>
+        <Text style={styles.dateText}>{props.date}</Text>
       </View>
-      <View style={styles.details}>
-        <Text>{props.name}</Text>
-        <Text style={styles.attendees}>{props.attendees}</Text>
+      <View style={styles.info}>
+        <Text style={styles.nameText}>{props.name}</Text>
+        <Text style={styles.attendeesText}>{props.attendees}</Text>
       </View>
     </View>
   );
