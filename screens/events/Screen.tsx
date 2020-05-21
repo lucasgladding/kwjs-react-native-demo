@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, ListRenderItem, TouchableWithoutFeedback, View} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import moment from 'moment';
 
 import Event from '../../services/events/Event';
@@ -9,7 +9,23 @@ import Separator from '../../components/Separator';
 interface ScreenProps {
   events: Event[];
   onSelect: (event: Event) => void;
+  onSort: () => void;
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDD',
+    padding: 20,
+  },
+  list: {
+    flexBasis: 0,
+    flexGrow: 1,
+  },
+});
 
 const Screen: React.FC<ScreenProps> = (props: ScreenProps) => {
   const renderEvent: ListRenderItem<Event> = ({item}) => {
@@ -30,7 +46,14 @@ const Screen: React.FC<ScreenProps> = (props: ScreenProps) => {
   };
 
   return (
-    <FlatList data={props.events} ItemSeparatorComponent={Separator} renderItem={renderEvent} />
+    <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={props.onSort}>
+        <View style={styles.button}>
+          <Text>Sort</Text>
+        </View>
+      </TouchableWithoutFeedback>
+      <FlatList data={props.events} ItemSeparatorComponent={Separator} renderItem={renderEvent} style={styles.list} />
+    </View>
   );
 };
 
